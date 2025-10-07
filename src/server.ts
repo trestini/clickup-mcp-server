@@ -36,6 +36,13 @@ import {
   addTimeEntryTool,
   deleteTimeEntryTool,
   getCurrentTimeEntryTool,
+  createChecklistTool,
+  createChecklistItemTool,
+  updateChecklistItemTool,
+  updateChecklistTool,
+  deleteChecklistTool,
+  deleteChecklistItemTool,
+  getTaskChecklistsTool,
   handleCreateTask,
   handleUpdateTask,
   handleMoveTask,
@@ -56,7 +63,14 @@ import {
   handleStopTimeTracking,
   handleAddTimeEntry,
   handleDeleteTimeEntry,
-  handleGetCurrentTimeEntry
+  handleGetCurrentTimeEntry,
+  handleCreateChecklist,
+  handleCreateChecklistItem,
+  handleUpdateChecklistItem,
+  handleUpdateChecklist,
+  handleDeleteChecklist,
+  handleDeleteChecklistItem,
+  handleGetTaskChecklists
 } from "./tools/task/index.js";
 import {
   createListTool, handleCreateList,
@@ -189,6 +203,13 @@ export function configureServer() {
         addTimeEntryTool,
         deleteTimeEntryTool,
         getCurrentTimeEntryTool,
+        createChecklistTool,
+        createChecklistItemTool,
+        updateChecklistItemTool,
+        updateChecklistTool,
+        deleteChecklistTool,
+        deleteChecklistItemTool,
+        getTaskChecklistsTool,
         createListTool,
         createListInFolderTool,
         getListTool,
@@ -217,8 +238,8 @@ export function configureServer() {
 
   // Register CallTool handler with proper logging
   logger.info("Registering tool handlers", {
-    toolCount: 36,
-    categories: ["workspace", "task", "time-tracking", "list", "folder", "tag", "member", "document"]
+    toolCount: 43,
+    categories: ["workspace", "task", "checklist", "time-tracking", "list", "folder", "tag", "member", "document"]
   });
 
   server.setRequestHandler(CallToolRequestSchema, async (req) => {
@@ -310,6 +331,20 @@ export function configureServer() {
           return handleDeleteTimeEntry(params);
         case "get_current_time_entry":
           return handleGetCurrentTimeEntry(params);
+        case "create_checklist":
+          return handleCreateChecklist(params);
+        case "create_checklist_item":
+          return handleCreateChecklistItem(params);
+        case "update_checklist_item":
+          return handleUpdateChecklistItem(params);
+        case "update_checklist":
+          return handleUpdateChecklist(params);
+        case "delete_checklist":
+          return handleDeleteChecklist(params);
+        case "delete_checklist_item":
+          return handleDeleteChecklistItem(params);
+        case "get_task_checklists":
+          return handleGetTaskChecklists(params);
         case "create_document":
           return handleCreateDocument(params);
         case "get_document":
