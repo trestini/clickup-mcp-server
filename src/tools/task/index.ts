@@ -60,6 +60,26 @@ export {
   handleAttachTaskFile
 } from './attachments.js';
 
+// Re-export checklist tools and handlers
+export {
+  createChecklistTool,
+  createChecklistItemTool,
+  updateChecklistItemTool,
+  updateChecklistTool,
+  deleteChecklistTool,
+  deleteChecklistItemTool,
+  getTaskChecklistsTool,
+  handleCreateChecklist,
+  handleCreateChecklistItem,
+  handleUpdateChecklistItem,
+  handleUpdateChecklist,
+  handleDeleteChecklist,
+  handleDeleteChecklistItem,
+  handleGetTaskChecklists,
+  checklistTools,
+  checklistHandlers
+} from './checklists.js';
+
 // Re-export handlers
 export {
   // Single task operation handlers
