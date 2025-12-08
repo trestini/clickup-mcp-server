@@ -2,7 +2,9 @@
 
 # Load environment variables from .env file if it exists
 if [ -f .env ]; then
-    export $(cat .env | xargs)
+    set -a  # automatically export all variables
+    source .env
+    set +a  # stop automatically exporting
 fi
 
 # Check if required environment variables are set
