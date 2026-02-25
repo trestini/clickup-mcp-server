@@ -16,6 +16,7 @@ import { TaskServiceAttachments } from './task-attachments.js';
 import { TaskServiceComments } from './task-comments.js';
 import { TaskServiceTags } from './task-tags.js';
 import { TaskServiceCustomFields } from './task-custom-fields.js';
+import { TaskServiceChecklists } from './task-checklists.js';
 import { WorkspaceService } from '../workspace.js';
 import {
   ClickUpTask,
@@ -23,6 +24,11 @@ import {
   ClickUpComment,
   ClickUpTag,
   ClickUpTaskAttachment,
+  ClickUpChecklist,
+  ClickUpChecklistItem,
+  CreateChecklistData,
+  CreateChecklistItemData,
+  UpdateChecklistItemData,
   ExtendedTaskFilters,
   DetailedTaskResponse,
   WorkspaceTasksResponse
@@ -42,6 +48,7 @@ export class TaskService extends TaskServiceCore {
   public readonly comments: TaskServiceComments;
   public readonly tags: TaskServiceTags;
   public readonly customFields: TaskServiceCustomFields;
+  public readonly checklists: TaskServiceChecklists;
 
   constructor(apiKey: string, teamId: string, baseUrl?: string, workspaceService?: WorkspaceService) {
     super(apiKey, teamId, baseUrl, workspaceService);
@@ -53,6 +60,7 @@ export class TaskService extends TaskServiceCore {
     this.comments = new TaskServiceComments(this);
     this.tags = new TaskServiceTags(this);
     this.customFields = new TaskServiceCustomFields(this);
+    this.checklists = new TaskServiceChecklists(this);
   }
 
   // ===== DELEGATED SEARCH METHODS =====
@@ -158,5 +166,35 @@ export class TaskService extends TaskServiceCore {
 
   async getCustomFieldValue(taskId: string, fieldId: string): Promise<any> {
     return this.customFields.getCustomFieldValue(taskId, fieldId);
+  }
+
+  // ===== DELEGATED CHECKLIST METHODS =====
+
+  async createChecklist(taskId: string, data: CreateChecklistData): Promise<ClickUpChecklist> {
+    return this.checklists.createChecklist(taskId, data);
+  }
+
+  async createChecklistItem(checklistId: string, data: CreateChecklistItemData): Promise<ClickUpChecklistItem> {
+    return this.checklists.createChecklistItem(checklistId, data);
+  }
+
+  async updateChecklistItem(checklistId: string, checklistItemId: string, data: UpdateChecklistItemData): Promise<ClickUpChecklistItem> {
+    return this.checklists.updateChecklistItem(checklistId, checklistItemId, data);
+  }
+
+  async deleteChecklistItem(checklistId: string, checklistItemId: string): Promise<boolean> {
+    return this.checklists.deleteChecklistItem(checklistId, checklistItemId);
+  }
+
+  async updateChecklist(checklistId: string, data: { name: string }): Promise<ClickUpChecklist> {
+    return this.checklists.updateChecklist(checklistId, data);
+  }
+
+  async deleteChecklist(checklistId: string): Promise<boolean> {
+    return this.checklists.deleteChecklist(checklistId);
+  }
+
+  async getTaskChecklists(taskId: string): Promise<ClickUpChecklist[]> {
+    return this.checklists.getTaskChecklists(taskId);
   }
 }

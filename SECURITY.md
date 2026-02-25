@@ -1,45 +1,54 @@
-# Security Policy
+# Security Guidelines
 
-## Supported Versions
+## Environment Variables
 
-We currently provide security updates for the following versions of ClickUp MCP Server:
+This project uses environment variables to manage sensitive configuration data like API keys and team IDs. **Never commit these values directly in code.**
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.5.x   | :white_check_mark: |
-| < 0.5.0 | :x:                |
+### Setup Instructions
 
-## Reporting a Vulnerability
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
 
-We take the security of the ClickUp MCP Server seriously, especially since it handles API keys and sensitive task data. If you discover a security vulnerability, please follow these steps:
+2. Edit `.env` with your actual values:
+   ```bash
+   CLICKUP_API_KEY=your_actual_api_key_here
+   CLICKUP_TEAM_ID=your_actual_team_id_here
+   ```
 
-1. **Do NOT disclose the vulnerability publicly** until it has been addressed by the maintainers.
-2. Send details of the vulnerability to the project maintainer directly at [create a private security report](https://github.com/TaazKareem/clickup-mcp-server/security/advisories/new).
-3. Include as much information as possible, such as:
-   - A clear description of the vulnerability
-   - Steps to reproduce the issue
-   - Potential impact of the vulnerability
-   - Suggested fix if you have one
+3. The `.env` file is already included in `.gitignore` and will never be committed.
 
-## Response Time
+### Running the Application
 
-- You will receive an initial response to your report within 48 hours.
-- We will keep you updated on our progress in addressing the vulnerability.
-- Once the vulnerability is fixed, we may ask you to verify the solution.
+Use the provided script which safely loads environment variables:
+```bash
+./run.sh
+```
 
-## Security Best Practices
+Or export variables manually:
+```bash
+export CLICKUP_API_KEY=your_api_key
+export CLICKUP_TEAM_ID=your_team_id
+npm start
+```
 
-When using ClickUp MCP Server, please follow these security best practices:
+## Important Security Notes
 
-1. **Never commit your ClickUp API keys to version control**. Always use environment variables or secure configuration management.
-2. Keep your npm dependencies up to date.
-3. Run the server in an isolated environment when possible.
-4. Regularly check for updates to the ClickUp MCP Server to ensure you have the latest security patches.
+- ✅ Use `.env` files for local development
+- ✅ Use environment variables in production
+- ✅ Keep `.env` in `.gitignore`
+- ❌ Never commit API keys or secrets to Git
+- ❌ Never hardcode credentials in scripts
+- ❌ Never share `.env` files or credentials in public channels
 
-## Policy Updates
+## If You Accidentally Commit Secrets
 
-This security policy may be updated from time to time. Please check back regularly for any changes.
+If you accidentally commit API keys or other secrets:
 
-## Acknowledgments
+1. **Immediately revoke/rotate** the compromised credentials
+2. **Rewrite Git history** to remove the secrets
+3. **Force push** to update remote repositories
+4. **Update all deployment environments** with new credentials
 
-We appreciate the responsible disclosure of security vulnerabilities and will acknowledge your contribution once the issue is resolved, unless you prefer to remain anonymous. 
+Remember: Once pushed to a public repository, assume the secret is compromised permanently.

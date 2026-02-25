@@ -737,4 +737,55 @@ export interface DocumentPagesOptions {
   content_format?: 'text/md' | 'text/html';
   max_page_depth?: number;
   pageIds: string[];
-} 
+}
+
+/**
+ * Checklist item object as returned by the ClickUp API
+ */
+export interface ClickUpChecklistItem {
+  id: string;
+  name: string;
+  resolved: boolean;
+  orderindex: number;
+  assignee?: ClickUpUser;
+  date_created: string;
+  date_updated: string;
+}
+
+/**
+ * Checklist object as returned by the ClickUp API
+ */
+export interface ClickUpChecklist {
+  id: string;
+  name: string;
+  orderindex: number;
+  resolved: number; // Number of resolved items
+  unresolved: number; // Number of unresolved items
+  items: ClickUpChecklistItem[];
+  date_created: string;
+  date_updated: string;
+}
+
+/**
+ * Data for creating a checklist
+ */
+export interface CreateChecklistData {
+  name: string;
+}
+
+/**
+ * Data for creating a checklist item
+ */
+export interface CreateChecklistItemData {
+  name: string;
+  assignee?: number;
+}
+
+/**
+ * Data for updating a checklist item
+ */
+export interface UpdateChecklistItemData {
+  name?: string;
+  resolved?: boolean;
+  assignee?: number;
+}
